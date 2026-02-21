@@ -29,8 +29,8 @@ Simple - grabs dependencies from package files (package.json, requirements.txt, 
 ## Installation
 
 ```bash
-# Easy way (requires Go)
-go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@latest
+# Go install - simplest way
+go install github.com/Swayamyadav01/Deptakeover@latest
 ```
 
 Or grab a binary from releases if you don't have Go installed.
@@ -39,7 +39,7 @@ Or grab a binary from releases if you don't have Go installed.
 # Build yourself
 git clone https://github.com/Swayamyadav01/Deptakeover.git
 cd Deptakeover  
-go build -o deptakeover ./cmd/deptakeover
+go build -o deptakeover .
 ```
 
 ## Usage
