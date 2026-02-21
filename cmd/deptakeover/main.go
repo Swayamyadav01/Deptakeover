@@ -43,39 +43,64 @@ type SummaryData struct {
 var rootCmd = &cobra.Command{
 	Use:   "deptakeover <ecosystem> <repo|org>",
 	Short: "Package takeover scanner for bug bounty hunting",
-	Long: `DepTakeover - finds unclaimed packages for supply chain attacks
+	Long: `DepTakeover - Supply Chain Vulnerability Scanner
 
-Checks npm, PyPI, and Composer registries for missing dependencies.
-Useful for bug bounty hunting and security research.
+Hunt for unclaimed packages across npm, PyPI, and Composer registries.
+When a project depends on a package that no longer exists on the registry,
+an attacker can claim that package name and potentially compromise all 
+projects that depend on it.
 
-Single repository:
-  deptakeover npm lodash/lodash
-  deptakeover pypi django/django
-  deptakeover composer laravel/laravel
+DepTakeover scans repositories and organizations to find these dangerous
+missing dependencies automatically.
 
-Organization scanning:
-  deptakeover org microsoft
-  deptakeover org-npm facebook`,
+SINGLE REPOSITORY SCANNING:
+  deptakeover npm lodash/lodash               # Scan npm dependencies
+  deptakeover pypi django/django              # Scan Python packages
+  deptakeover composer laravel/laravel        # Scan PHP packages
+
+ORGANIZATION-WIDE SCANNING:
+  deptakeover org microsoft                   # All ecosystems
+  deptakeover org-npm facebook                # npm only
+  deptakeover org-pypi google                 # PyPI only
+  deptakeover org-composer symfony            # Composer only
+
+SHORTCUTS:
+  py = pypi, php = composer
+
+OUTPUT:
+  JSON report with all vulnerable dependencies and risk analysis
+
+PERFECT FOR:
+  Bug bounty hunters, security researchers, and DevOps teams looking
+  to identify supply chain attack vectors in their dependencies.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 2 {
-			fmt.Println("DepTakeover - Package takeover scanner")
-			fmt.Println("Finds unclaimed packages for supply chain attacks")
+			fmt.Println("========================================")
+			fmt.Println("   DepTakeover - Supply Chain Scanner")
+			fmt.Println("========================================")
+			fmt.Println()
+			fmt.Println("Hunt for unclaimed packages in your dependencies.")
+			fmt.Println("Missing packages = supply chain attack vectors.")
 			fmt.Println()
 			fmt.Println("Usage: deptakeover <ecosystem> <target>")
 			fmt.Println()
-			fmt.Println("Single repository:")
+			fmt.Println("SINGLE REPOSITORY:")
 			fmt.Println("  deptakeover npm lodash/lodash")
 			fmt.Println("  deptakeover pypi django/django")
 			fmt.Println("  deptakeover composer laravel/laravel")
-			fmt.Println("  deptakeover py requests/requests        # shorthand")
+			fmt.Println("  deptakeover py requests               # shorthand")
 			fmt.Println()
-			fmt.Println("Organization scanning:")
-			fmt.Println("  deptakeover org microsoft               # All ecosystems")
-			fmt.Println("  deptakeover org-npm facebook            # npm only")
-			fmt.Println("  deptakeover org-pypi google             # PyPI only")
-			fmt.Println("  deptakeover org-composer symfony        # Composer only")
+			fmt.Println("ORGANIZATION SCANNING:")
+			fmt.Println("  deptakeover org microsoft              # All ecosystems")
+			fmt.Println("  deptakeover org-npm facebook           # npm only")
+			fmt.Println("  deptakeover org-pypi google            # PyPI only")
+			fmt.Println("  deptakeover org-composer symfony       # Composer only")
 			fmt.Println()
-			fmt.Println("Use --help for more examples")
+			fmt.Println("OUTPUT:")
+			fmt.Println("  Generates JSON report with vulnerable packages")
+			fmt.Println()
+			fmt.Println("Need help? Run: deptakeover --help")
+			fmt.Println("========================================")
 			os.Exit(1)
 		}
 
