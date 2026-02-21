@@ -86,6 +86,7 @@ internal/github/     - github repo cloning stuff
 ```
 
 Pretty standard Go layout. The scanner modules find dependencies, registry modules check if they exist.
+'''
 │   │   └── php.go           # composer.json parser
 │   ├── registry/             # Registry API clients
 │   │   ├── npm.go           # npm registry checks
@@ -181,5 +182,6 @@ Pull requests welcome. Keep it simple.
 To add a new registry, look at existing ones in `internal/registry/` and follow the same pattern.
 
 ---
+
 
 Built for fellow bug bounty hunters who got tired of manually checking dependencies. Hope it helps you find some good stuff.
