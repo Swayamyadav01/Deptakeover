@@ -1,4 +1,4 @@
-module deptakeover
+module github.com/Swayamyadav01/Deptakeover
 
 go 1.21
 

@@ -27,17 +27,22 @@ When a project depends on a package that **no longer exists** on the registry (n
 
 ### Installation
 
-**Option 1: Download Pre-built Binary**
+**Option 1: Go Install (Recommended)**
+```bash
+go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@latest
+```
+
+**Option 2: Download Pre-built Binary**
 ```bash
 # Download from releases page
-curl -L https://github.com/yourusername/deptakeover/releases/latest/download/deptakeover-linux-amd64 -o deptakeover
+curl -L https://github.com/Swayamyadav01/Deptakeover/releases/latest/download/deptakeover-linux-amd64 -o deptakeover
 chmod +x deptakeover
 ```
 
-**Option 2: Build from Source**
+**Option 3: Build from Source**
 ```bash
-git clone https://github.com/yourusername/deptakeover.git
-cd deptakeover
+git clone https://github.com/Swayamyadav01/Deptakeover.git
+cd Deptakeover
 go build -o deptakeover ./cmd/deptakeover
 ```
 
