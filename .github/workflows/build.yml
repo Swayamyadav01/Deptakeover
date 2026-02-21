@@ -1,0 +1,151 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Run tests
+      run: go test -v ./...
+    
+    - name: Run go vet
+      run: go vet ./...
+    
+    - name: Run go fmt check
+      run: |
+        if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then
+          echo "Go code is not formatted:"
+          gofmt -s -l .
+          exit 1
+        fi
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: windows
+            arch: amd64
+            ext: .exe
+          - os: windows
+            arch: arm64
+            ext: .exe
+          - os: linux
+            arch: amd64
+            ext: ""
+          - os: linux
+            arch: arm64
+            ext: ""
+          - os: darwin
+            arch: amd64
+            ext: ""
+          - os: darwin
+            arch: arm64
+            ext: ""
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Build binary
+      env:
+        GOOS: ${{ matrix.os }}
+        GOARCH: ${{ matrix.arch }}
+        CGO_ENABLED: 0
+      run: |
+        mkdir -p build
+        go build -ldflags="-w -s" -o build/deptakeover-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.ext }} ./cmd/deptakeover
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: deptakeover-${{ matrix.os }}-${{ matrix.arch }}
+        path: build/deptakeover-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.ext }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: build-artifacts
+    
+    - name: Prepare release assets
+      run: |
+        mkdir -p release-assets
+        find build-artifacts -name "deptakeover-*" -type f -exec cp {} release-assets/ \;
+        ls -la release-assets/
+    
+    - name: Create checksums
+      run: |
+        cd release-assets
+        sha256sum * > checksums.txt
+        cat checksums.txt
+    
+    - name: Extract release notes
+      run: |
+        # Extract release notes from CHANGELOG.md or create default
+        echo "## What's Changed" > release-notes.md
+        echo "" >> release-notes.md
+        echo "This release includes:" >> release-notes.md
+        echo "- Bug fixes and improvements" >> release-notes.md
+        echo "- Cross-platform binaries for Windows, Linux, and macOS" >> release-notes.md
+        echo "" >> release-notes.md
+        echo "See full changelog for detailed changes." >> release-notes.md
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          release-assets/*
+        body_path: release-notes.md
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Run Gosec Security Scanner
+      uses: securecodewarrior/github-action-gosec@master
+      with:
+        args: './...'
+    
+    - name: Run Nancy (vulnerability scanner)
+      run: |
+        go install github.com/sonatypecommunity/nancy@latest
+        go list -json -deps ./... | nancy sleuth
