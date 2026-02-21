@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"deptakeover/internal/github"
-	"deptakeover/internal/registry"
-	"deptakeover/internal/scanner"
+	"github.com/Swayamyadav01/Deptakeover/internal/github"
+	"github.com/Swayamyadav01/Deptakeover/internal/registry"
+	"github.com/Swayamyadav01/Deptakeover/internal/scanner"
 
 	"github.com/spf13/cobra"
 )
