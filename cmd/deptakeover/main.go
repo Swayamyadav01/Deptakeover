@@ -42,12 +42,11 @@ type SummaryData struct {
 
 var rootCmd = &cobra.Command{
 	Use:   "deptakeover <ecosystem> <repo|org>",
-	Short: "⚡ Supply chain dependency takeover scanner",
-	Long: `
-╔══════════════════════════════════════════════════════════════╗
-║                      ⚡ DEPTAKEOVER ⚡                       ║
-║          Supply Chain Dependency Takeover Scanner           ║  
-║                                                              ║
+	Short: "Package takeover scanner for bug bounty hunting",
+	Long: `DepTakeover - finds unclaimed packages for supply chain attacks
+
+Checks npm, PyPI, and Composer registries for missing dependencies.
+Useful for bug bounty hunting and security research.`
 ║    🔍 Hunt package takeover vulnerabilities                 ║
 ║    🎯 Perfect for bug bounty hunters                        ║
 ╚══════════════════════════════════════════════════════════════╝
@@ -76,26 +75,24 @@ var rootCmd = &cobra.Command{
 🚀 Built with Go for maximum speed and portability`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 2 {
-			fmt.Println("⚡ DEPTAKEOVER - Supply Chain Takeover Scanner")
-			fmt.Println("🔍 Hunt package takeover vulnerabilities for bug bounty")
-			fmt.Println(strings.Repeat("─", 55))
+			fmt.Println("DepTakeover - Package takeover scanner")
+			fmt.Println("Finds unclaimed packages for supply chain attacks")
 			fmt.Println()
-			fmt.Println("❌ Usage: deptakeover <ecosystem> <target>")
+			fmt.Println("Usage: deptakeover <ecosystem> <target>")
 			fmt.Println()
-			fmt.Println("📦 SINGLE REPOSITORY:")
+			fmt.Println("Single repository:")
 			fmt.Println("  deptakeover npm lodash/lodash")
 			fmt.Println("  deptakeover pypi django/django")
 			fmt.Println("  deptakeover composer laravel/laravel")
 			fmt.Println("  deptakeover py requests/requests        # shorthand")
 			fmt.Println()
-			fmt.Println("🏢 ORGANIZATION SCANNING:")
+			fmt.Println("Organization scanning:")
 			fmt.Println("  deptakeover org microsoft               # All ecosystems")
 			fmt.Println("  deptakeover org-npm facebook            # npm only")
 			fmt.Println("  deptakeover org-pypi google             # PyPI only")
 			fmt.Println("  deptakeover org-composer symfony        # Composer only")
 			fmt.Println()
-			fmt.Println("💡 TIP: Use 'deptakeover --help' for detailed examples")
-			fmt.Println("🎯 Perfect for finding unclaimed packages in bug bounty!")
+			fmt.Println("Use --help for more examples")
 			os.Exit(1)
 		}
 
@@ -118,10 +115,10 @@ var rootCmd = &cobra.Command{
 
 		ecosystem, exists := ecosystemMap[ecosystemInput]
 		if !exists {
-			fmt.Printf("❌ Unknown ecosystem: '%s'\n", ecosystemInput)
-			fmt.Println("🎯 Valid: npm, pypi, py, composer, php")
-			fmt.Println("🏢 Org scans: org, org-npm, org-pypi, org-composer")
-			fmt.Println("💡 Example: deptakeover npm lodash/lodash")
+			fmt.Printf("Unknown ecosystem: '%s'\n", ecosystemInput)
+			fmt.Println("Valid options: npm, pypi, py, composer, php")
+			fmt.Println("Org scans: org, org-npm, org-pypi, org-composer")
+			fmt.Println("Example: deptakeover npm lodash/lodash")
 			os.Exit(1)
 		}
 
