@@ -1,137 +1,91 @@
-# 🔍 DepTakeover - Supply Chain Takeover Scanner
+# DepTakeover
 
 [![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=for-the-badge&logo=go)](https://golang.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=for-the-badge)](https://github.com/yourusername/deptakeover/releases)
-[![Bug Bounty](https://img.shields.io/badge/Built%20for-Bug%20Bounty-red?style=for-the-badge)](https://github.com/yourusername/deptakeover)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=for-the-badge)](https://github.com/Swayamyadav01/Deptakeover/releases)
 
-> ⚡ **Lightning-fast supply chain vulnerability scanner designed for bug bounty hunters**
+Package takeover finder for bug bounty hunting. Scans npm, PyPI, and Composer registries for unclaimed packages.
 
-Hunt for **package takeover vulnerabilities** across npm, PyPI, and Composer registries. Scan individual repositories or entire organizations to discover unclaimed packages that could lead to supply chain attacks.
+Built this after manually checking dependencies got old real fast during bug bounty hunts. Figured other people might find it useful too.
 
-## 🎯 What is Package Takeover?
+## What's package takeover?
 
-When a project depends on a package that **no longer exists** on the registry (npm, PyPI, Packagist), an attacker can claim that package name and potentially compromise all projects that depend on it. This scanner identifies these vulnerable dependencies automatically.
+Basically when a project depends on a package that doesn't exist anymore on the registry. You could potentially claim that package name and own everyone who depends on it. Pretty bad for supply chain security.
 
-## ✨ Features
+This tool finds those missing packages automatically instead of you having to check each one by hand.
 
-- 🚀 **Blazing Fast** - Written in Go for maximum performance
-- 🌐 **Multi-Registry Support** - npm, PyPI (Python), Composer (PHP)
-- 🏢 **Organization Scanning** - Scan entire GitHub organizations
-- 📊 **Comprehensive Reports** - Detailed JSON reports with vulnerability analysis
-- 🎯 **Bug Bounty Optimized** - Built specifically for security researchers
-- 💻 **Cross-Platform** - Windows, Linux, macOS support
-- ⚡ **Zero Dependencies** - Single binary, no runtime requirements
+## Features
 
-## 🚀 Quick Start
+- Scans npm, PyPI, and Composer registries
+- Can scan entire GitHub organizations (this is where it gets useful)
+- Pretty fast - written in Go with concurrent requests
+- Outputs JSON reports for further analysis
+- Works on Windows/Linux/macOS
 
-### Installation
+## How it works
 
-**Option 1: Go Install (Recommended)**
+Simple - grabs dependencies from package files (package.json, requirements.txt, composer.json) then hits the registry APIs to check if they return 404. Those 404s are your potential takeover targets.
+
+## Installation
+
 ```bash
+# Easy way (requires Go)
 go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@latest
 ```
 
-**Option 2: Download Pre-built Binary**
-```bash
-# Download from releases page
-curl -L https://github.com/Swayamyadav01/Deptakeover/releases/latest/download/deptakeover-linux-amd64 -o deptakeover
-chmod +x deptakeover
-```
+Or grab a binary from releases if you don't have Go installed.
 
-**Option 3: Build from Source**
 ```bash
+# Build yourself
 git clone https://github.com/Swayamyadav01/Deptakeover.git
-cd Deptakeover
+cd Deptakeover  
 go build -o deptakeover ./cmd/deptakeover
 ```
 
-### Basic Usage
+## Usage
 
-**Single Repository Scanning:**
+Scan a single repo:
 ```bash
-# Scan npm dependencies
-deptakeover npm lodash/lodash
-
-# Scan Python packages
-deptakeover pypi django/django
-
-# Scan PHP packages  
+deptakeover npm facebook/react
+deptakeover pypi django/django  
 deptakeover composer laravel/laravel
 
-# Shorthand aliases
-deptakeover py requests/requests    # Python
-deptakeover php symfony/symfony     # PHP
+# shortcuts
+deptakeover py some/repo    # same as pypi
+deptakeover php vendor/pkg  # same as composer
 ```
 
-**Organization-Wide Scanning:**
+Scan entire organizations (this is where it gets interesting):
 ```bash
-# Scan all ecosystems across entire org
-deptakeover org microsoft
-
-# Ecosystem-specific org scans
-deptakeover org-npm facebook        # npm only
-deptakeover org-pypi google         # Python only
-deptakeover org-composer symfony    # PHP only
+deptakeover org microsoft           # all repos, all package types
+deptakeover org-npm facebook        # just npm
+deptakeover org-pypi google         # just python
+deptakeover org-composer symfony    # just php
 ```
 
-## 📊 Example Output
+## Example
 
 ```bash
-$ deptakeover npm lodash/lodash
+$ deptakeover npm some/repo
 
-🔍 Scanning [npm]...
-📦 Found 27 packages
-✅ Report: npm_report.json
-──────────────────────────────────────────────────
-📊 Dependencies: 27
-⚠️  Takeover targets: 0
-──────────────────────────────────────────────────
+Scanning npm dependencies...
+Checking 47 packages...
+Found 3 unclaimed packages!
+
+Results saved to: npm_report.json
 ```
 
-**With Vulnerabilities Found:**
-```bash
-$ deptakeover composer vulnerable-project/repo
-
-🔍 Scanning [composer]...  
-📦 Found 15 packages
-✅ Report: composer_report.json
-──────────────────────────────────────────────────
-📊 Dependencies: 15
-⚠️  Takeover targets: 3
-
-🚨 [COMPOSER] 3 NOT FOUND:
-  • abandoned-package/helper
-  • old-vendor/legacy-lib
-  • missing-dep/validator
-──────────────────────────────────────────────────
-```
-
-## 🏢 Organization Scanning
-
-Perfect for discovering vulnerabilities across large organizations:
-
-```bash
-# Scan Microsoft's repositories
-deptakeover org microsoft
-
-# Results show:
-# - Total repositories scanned: 2,847
-# - Total vulnerabilities: 23
-# - Top vulnerable packages
-# - Most vulnerable repositories
-# - Frequency analysis
-```
-
-## 📁 Project Structure
+The JSON report has details about which packages returned 404.
+## Project structure
 
 ```
-deptakeover/
-├── cmd/deptakeover/          # Main application
-├── internal/
-│   ├── scanner/              # Dependency file parsers
-│   │   ├── npm.go           # package.json parser
-│   │   ├── python.go        # requirements.txt, setup.py, etc.
+cmd/deptakeover/     - main CLI app
+internal/scanner/    - parses package.json, requirements.txt, etc
+internal/registry/   - checks npm/pypi/packagist APIs  
+internal/github/     - github repo cloning stuff
+```
+
+Pretty standard Go layout. The scanner modules find dependencies, registry modules check if they exist.
 │   │   └── php.go           # composer.json parser
 │   ├── registry/             # Registry API clients
 │   │   ├── npm.go           # npm registry checks
@@ -184,53 +138,48 @@ JSON reports include:
 
 We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-### Development Setup
+## Development
 
 ```bash
-git clone https://github.com/yourusername/deptakeover.git
-cd deptakeover
-go mod download
-go build -o deptakeover./cmd/deptakeover
+git clone https://github.com/Swayamyadav01/Deptakeover.git
+cd Deptakeover  
+go build ./cmd/deptakeover
 ```
 
-### Running Tests
-
+Run tests:
 ```bash
 go test ./...
 ```
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT - do whatever you want with it.
 
-## 🔒 Security
+## Security
 
-Found a security issue? Please see our [Security Policy](SECURITY.md) for responsible disclosure.
+If you find bugs in this tool, just open an issue.
 
-## 🏆 Bug Bounty Tips
+## Bug bounty tips
 
-1. **Start with org-npm scans** - Faster for JavaScript-heavy organizations
-2. **Focus on popular repositories** - Higher impact vulnerabilities
-3. **Check dependency frequency** - Packages used across multiple repos
-4. **Verify manual takeover** - Always confirm packages are truly unclaimed
-5. **Document impact** - Show potential reach of supply chain attack
+- Start with org-npm scans on JS-heavy companies - usually more dependencies
+- Check if missing package names are typos of popular packages - those pay well
+- Some packages get claimed/unclaimed over time, so re-scan targets periodically  
+- Don't actually register packages - just report the potential takeover
+- Always follow responsible disclosure
 
-## 📈 Roadmap
+## TODO
 
-- [ ] Support for additional registries (RubyGems, NuGet, etc.)
-- [ ] Real-time monitoring mode
-- [ ] Web dashboard for results visualization
-- [ ] Integration with popular bug bounty platforms
-- [ ] Automated proof-of-concept generation
+- Add more registries (RubyGems, NuGet maybe)
+- Better rate limit handling  
+- Cache results to avoid re-scanning same repos
+- Web interface if anyone wants that
 
-## 🙏 Acknowledgments
+## Contributing
 
-- Built for the bug bounty and security research community
-- Inspired by dependency confusion research by Alex Birsan
-- Thanks to all contributors and security researchers
+Pull requests welcome. Keep it simple.
+
+To add a new registry, look at existing ones in `internal/registry/` and follow the same pattern.
 
 ---
 
-⭐ **Star this repo if it helped you find vulnerabilities!**
-
-**Disclaimer**: This tool is for authorized security research only. Always follow responsible disclosure practices and respect bug bounty program terms.
+Built for fellow bug bounty hunters who got tired of manually checking dependencies. Hope it helps you find some good stuff.

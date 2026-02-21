@@ -1,32 +1,28 @@
-# Contributing to DepTakeover
+# Contributing
 
-Thank you for your interest in contributing to DepTakeover! We welcome contributions from the security research and bug bounty community.
+Pull requests welcome. Here's how to contribute:
 
-## 🤝 How to Contribute
+## Setup
 
-### 1. Fork & Clone
 ```bash
-git clone https://github.com/yourusername/deptakeover.git
-cd deptakeover
+git clone https://github.com/Swayamyadav01/Deptakeover.git
+cd Deptakeover
+go mod download
 ```
 
-### 2. Create a Feature Branch
-```bash
-git checkout -b feature/your-feature-name
-# or
-git checkout -b bugfix/issue-description
-```
+## Making Changes
 
-### 3. Make Changes
-- Follow Go conventions and best practices
-- Add tests for new functionality
-- Update documentation if needed
-- Ensure your code is properly formatted (`go fmt`)
+- Fork the repo
+- Make your changes
+- Test them (`go test ./...`)
+- Submit a PR with a clear description
 
-### 4. Test Your Changes
-```bash
-# Run tests
-go test ./...
+## Code Style
+
+- Follow standard Go conventions
+- Run `go fmt` before committing  
+- Add tests for new features
+- Keep it simple
 
 # Build and test manually
 go build -o deptakeover ./cmd/deptakeover
