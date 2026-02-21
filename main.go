@@ -46,33 +46,16 @@ var rootCmd = &cobra.Command{
 	Long: `DepTakeover - finds unclaimed packages for supply chain attacks
 
 Checks npm, PyPI, and Composer registries for missing dependencies.
-Useful for bug bounty hunting and security research.`
-║    🔍 Hunt package takeover vulnerabilities                 ║
-║    🎯 Perfect for bug bounty hunters                        ║
-╚══════════════════════════════════════════════════════════════╝
+Useful for bug bounty hunting and security research.
 
-📦 SINGLE REPOSITORY SCANNING:
-  deptakeover npm lodash/lodash           # Scan npm dependencies
-  deptakeover pypi django/django          # Scan Python packages  
-  deptakeover composer laravel/laravel    # Scan PHP packages
-  deptakeover npm https://github.com/x/y  # Full GitHub URL
-  
-🏢 ORGANIZATION-WIDE SCANNING:
-  deptakeover org microsoft               # All ecosystems (npm + PyPI + Composer)
-  deptakeover org-npm facebook            # npm packages only
-  deptakeover org-pypi google             # Python packages only  
-  deptakeover org-composer symfony        # PHP packages only
-  
-⚡ SHORTCUTS & ALIASES:
-  py = pypi     │  php = composer
-  
-💡 PRO TIPS:
-  • Start with org-npm for JavaScript-heavy targets (faster)
-  • Use org scans to discover hidden repositories
-  • Check JSON reports for technical details
-  • Rate limits are handled automatically
+Single repository:
+  deptakeover npm lodash/lodash
+  deptakeover pypi django/django
+  deptakeover composer laravel/laravel
 
-🚀 Built with Go for maximum speed and portability`,
+Organization scanning:
+  deptakeover org microsoft
+  deptakeover org-npm facebook`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 2 {
 			fmt.Println("DepTakeover - Package takeover scanner")
