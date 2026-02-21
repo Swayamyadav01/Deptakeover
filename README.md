@@ -85,19 +85,6 @@ internal/registry/   - checks npm/pypi/packagist APIs
 internal/github/     - github repo cloning stuff
 ```
 
-Pretty standard Go layout. The scanner modules find dependencies, registry modules check if they exist.
-'''
-│   │   └── php.go           # composer.json parser
-│   ├── registry/             # Registry API clients
-│   │   ├── npm.go           # npm registry checks
-│   │   ├── pypi.go          # PyPI registry checks  
-│   │   └── packagist.go     # Packagist registry checks
-│   └── github/              # GitHub integration
-│       └── handler.go       # Repository cloning/downloading
-├── build/                   # Build outputs
-├── docs/                    # Documentation
-└── README.md
-```
 
 ## 🔧 Advanced Usage
 
@@ -185,3 +172,4 @@ To add a new registry, look at existing ones in `internal/registry/` and follow 
 
 
 Built for fellow bug bounty hunters who got tired of manually checking dependencies. Hope it helps you find some good stuff.
+
