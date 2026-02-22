@@ -43,11 +43,17 @@ Simple - grabs dependencies from package files (package.json, requirements.txt, 
 ## Installation
 
 ```bash
-# Go install - latest code from main branch
-go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@main
-
-# Or use latest tagged release
+# One-command install (recommended)
 go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@latest
+```
+
+No Go setup? Download the prebuilt binary from GitHub Releases and run it directly:
+https://github.com/Swayamyadav01/Deptakeover/releases
+
+Want bleeding-edge (not latest release)? Use:
+
+```bash
+go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@main
 ```
 
 If `deptakeover` is not found, add Go bin to your `PATH`:
