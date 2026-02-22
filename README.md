@@ -1,11 +1,12 @@
 # DepTakeover
 
 ```
- ____        ____        _        _
-|  _ \  ___ |  _ \  ___ | |_ __ _| | _____ _ __
-| | | |/ _ \| | | |/ _ \| __/ _  | |/ / _ \ '__|
-| |_| |  __/| |_| | (_) | || (_| |   <  __/ |
-|____/ \___||____/ \___/ \__\__,_|_|\_\___|_|
+ ____           _____     _
+|  _ \  ___ _ _|_   _|_ _| | _____  _____   _____ _ __ 
+| | | |/ _ \ '_ \| |/ _` | |/ / _ \/ _ \ \ / / _ \ '__|
+| |_| |  __/ |_) | | (_| |   <  __/ (_) \ V /  __/ |   
+|____/ \___| .__/|_|\__,_|_|\_\___|\___/ \_/ \___|_|   
+           |_|
 
 Supply Chain Takeover Scanner
 Find missing packages across npm, PyPI, and Composer
@@ -189,4 +190,5 @@ To add a new registry, look at existing ones in `internal/registry/` and follow 
 
 
 Built for fellow bug bounty hunters who got tired of manually checking dependencies. Hope it helps you find some good stuff.
+
 
