@@ -147,15 +147,14 @@ PERFECT FOR:
 }
 
 const bannerText = `
-  ____           _____     _
-|  _ \  ___ _ _|_   _|_ _| | _____  _____   _____ _ __ 
-| | | |/ _ \ '_ \| |/ _' | |/ / _ \/ _ \ \ / / _ \ '__|
-| |_| |  __/ |_) | | (_| |   <  __/ (_) \ V /  __/ |   
-|____/ \___| .__/|_|\__,_|_|\_\___|\___/ \_/ \___|_|   
-           |_| 
-		   
-DepTakeover
-Supply Chain Takeover Scanner
+ ____             ______         _
+|  _ \  ___ _ __ |__  /___  ___| |_
+| | | |/ _ \ '_ \  / // _ \/ __| __|
+| |_| |  __/ |_) |/ /|  __/\__ \ |_
+|____/ \___| .__/_____|\___||___/\__|
+           |_|
+
+DepTakeover | Supply Chain Takeover Scanner
 Find missing packages across npm, PyPI, and Composer
 Report unclaimed dependencies before attackers do
 `
