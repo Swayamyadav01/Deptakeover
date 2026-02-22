@@ -75,7 +75,7 @@ PERFECT FOR:
   to identify supply chain attack vectors in their dependencies.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 2 {
-			fmt.Println(bannerText)
+			fmt.Print(bannerText)
 			fmt.Println("Usage: deptakeover <ecosystem> <target>")
 			fmt.Println()
 			fmt.Println("SINGLE REPOSITORY:")
@@ -151,6 +151,7 @@ const bannerText = `
 | |_| |  __/| |_| | (_) | || (_| |   <  __/ |
 |____/ \___||____/ \___/ \__\__,_|_|\_\___|_|
 
+DepTakeover
 Supply Chain Takeover Scanner
 Find missing packages across npm, PyPI, and Composer
 Report unclaimed dependencies before attackers do

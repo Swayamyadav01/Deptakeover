@@ -9,11 +9,11 @@ import (
 )
 
 type NPMPackageInfo struct {
-	Exists       bool
-	RiskScore    int
-	Signals      []string
-	Metadata     map[string]interface{}
-	Package      string
+	Exists    bool
+	RiskScore int
+	Signals   []string
+	Metadata  map[string]interface{}
+	Package   string
 }
 
 func CheckNPMPackageRisk(packageName string) NPMPackageInfo {
