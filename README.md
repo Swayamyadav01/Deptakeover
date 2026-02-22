@@ -1,5 +1,17 @@
 # DepTakeover
 
+```
+ ____        ____        _        _
+|  _ \  ___ |  _ \  ___ | |_ __ _| | _____ _ __
+| | | |/ _ \| | | |/ _ \| __/ _  | |/ / _ \ '__|
+| |_| |  __/| |_| | (_) | || (_| |   <  __/ |
+|____/ \___||____/ \___/ \__\__,_|_|\_\___|_|
+
+Supply Chain Takeover Scanner
+Find missing packages across npm, PyPI, and Composer
+Report unclaimed dependencies before attackers do
+```
+
 [![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=for-the-badge&logo=go)](https://golang.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=for-the-badge)](https://github.com/Swayamyadav01/Deptakeover/releases)
@@ -76,15 +88,20 @@ Results saved to: npm_report.json
 ```
 
 The JSON report has details about which packages returned 404.
+
 ## Project structure
 
 ```
-cmd/deptakeover/     - main CLI app
-internal/scanner/    - parses package.json, requirements.txt, etc
-internal/registry/   - checks npm/pypi/packagist APIs  
-internal/github/     - github repo cloning stuff
+cmd/deptakeover/      - main CLI app
+internal/scanner/     - parses package.json, requirements.txt, etc
+internal/registry/    - checks npm/pypi/packagist APIs
+internal/github/      - GitHub repo cloning/downloading
+scripts/              - build and release scripts
+.github/              - GitHub workflows
+build/                - build outputs (generated)
 ```
 
+Pretty standard Go layout. The scanner modules find dependencies, registry modules check if they exist.
 
 ## 🔧 Advanced Usage
 

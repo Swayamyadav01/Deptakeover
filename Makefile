@@ -59,7 +59,7 @@ build: clean
 .PHONY: build-all
 build-all: clean
 	@echo "🌍 Building for all platforms..."
-	./build.sh
+	./scripts/build.sh
 
 .PHONY: build-linux
 build-linux: clean
@@ -84,7 +84,7 @@ build-mac: clean
 .PHONY: release
 release: test lint build-all
 	@echo "🎉 Creating release..."
-	./release.sh $(VERSION)
+	./scripts/release.sh $(VERSION)
 
 # Clean targets
 .PHONY: clean

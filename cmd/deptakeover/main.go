@@ -18,10 +18,10 @@ import (
 )
 
 type ReportData struct {
-	RepoPath   string                 `json:"repo_path"`
-	GitHubOrg  *string                `json:"github_org"`
-	GitHubRepo *string                `json:"github_repo"`
-	GitHubURL  *string                `json:"github_url"`
+	RepoPath   string                   `json:"repo_path"`
+	GitHubOrg  *string                  `json:"github_org"`
+	GitHubRepo *string                  `json:"github_repo"`
+	GitHubURL  *string                  `json:"github_url"`
 	Ecosystems map[string]EcosystemData `json:"ecosystems"`
 }
 
@@ -33,11 +33,11 @@ type EcosystemData struct {
 }
 
 type SummaryData struct {
-	HighRiskCount       int      `json:"high_risk_count"`
-	MediumRiskCount     int      `json:"medium_risk_count"`
-	NotFoundCount       int      `json:"not_found_count"`
-	HighRiskPackages    []string `json:"high_risk_packages"`
-	NotFoundPackages    []string `json:"not_found_packages"`
+	HighRiskCount    int      `json:"high_risk_count"`
+	MediumRiskCount  int      `json:"medium_risk_count"`
+	NotFoundCount    int      `json:"not_found_count"`
+	HighRiskPackages []string `json:"high_risk_packages"`
+	NotFoundPackages []string `json:"not_found_packages"`
 }
 
 var rootCmd = &cobra.Command{
@@ -75,13 +75,7 @@ PERFECT FOR:
   to identify supply chain attack vectors in their dependencies.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 2 {
-			fmt.Println("========================================")
-			fmt.Println("   DepTakeover - Supply Chain Scanner")
-			fmt.Println("========================================")
-			fmt.Println()
-			fmt.Println("Hunt for unclaimed packages in your dependencies.")
-			fmt.Println("Missing packages = supply chain attack vectors.")
-			fmt.Println()
+			fmt.Println(bannerText)
 			fmt.Println("Usage: deptakeover <ecosystem> <target>")
 			fmt.Println()
 			fmt.Println("SINGLE REPOSITORY:")
@@ -100,7 +94,6 @@ PERFECT FOR:
 			fmt.Println("  Generates JSON report with vulnerable packages")
 			fmt.Println()
 			fmt.Println("Need help? Run: deptakeover --help")
-			fmt.Println("========================================")
 			os.Exit(1)
 		}
 
@@ -110,14 +103,14 @@ PERFECT FOR:
 		// Map ecosystem names
 		ecosystemMap := map[string]string{
 			"npm":          "npm",
-			"pypi":         "pypi", 
+			"pypi":         "pypi",
 			"py":           "pypi",
 			"python":       "pypi",
 			"composer":     "composer",
 			"php":          "composer",
 			"org":          "org",
 			"org-npm":      "org-npm",
-			"org-pypi":     "org-pypi", 
+			"org-pypi":     "org-pypi",
 			"org-composer": "org-composer",
 		}
 
@@ -150,6 +143,18 @@ PERFECT FOR:
 		runScan(githubURL, githubRepo, "", "", ecosystem, outFile)
 	},
 }
+
+const bannerText = `
+ ____        ____        _        _
+|  _ \  ___ |  _ \  ___ | |_ __ _| | _____ _ __
+| | | |/ _ \| | | |/ _ \| __/ _  | |/ / _ \ '__|
+| |_| |  __/| |_| | (_) | || (_| |   <  __/ |
+|____/ \___||____/ \___/ \__\__,_|_|\_\___|_|
+
+Supply Chain Takeover Scanner
+Find missing packages across npm, PyPI, and Composer
+Report unclaimed dependencies before attackers do
+`
 
 func init() {
 	// Positional arguments only - no flags
@@ -248,47 +253,47 @@ func runScan(githubURL, githubRepo, githubOrg, localPath, ecosystem, outFile str
 
 // GitHub API response structure for repository listing
 type GitHubRepo struct {
-	Name        string `json:"name"`
-	FullName    string `json:"full_name"`
-	Language    string `json:"language"`
-	Size        int    `json:"size"`
-	ForksCount  int    `json:"forks_count"`
-	StarsCount  int    `json:"stargazers_count"`
+	Name       string `json:"name"`
+	FullName   string `json:"full_name"`
+	Language   string `json:"language"`
+	Size       int    `json:"size"`
+	ForksCount int    `json:"forks_count"`
+	StarsCount int    `json:"stargazers_count"`
 }
 
 // Organization scan report structure
 type OrgReportData struct {
-	Organization     string                 `json:"organization"`
-	ScanType        string                 `json:"scan_type"`
-	TotalRepos      int                    `json:"total_repos"`
-	ScannedRepos    int                    `json:"scanned_repos"`
-	SkippedRepos    int                    `json:"skipped_repos"`
-	TotalVulns      int                    `json:"total_vulnerabilities"`
-	RepositorySummary map[string]RepoScanResult `json:"repository_summary"`
-	TopVulnerabilities []VulnSummary        `json:"top_vulnerabilities"`
-	ScanTimestamp   time.Time              `json:"scan_timestamp"`
+	Organization       string                    `json:"organization"`
+	ScanType           string                    `json:"scan_type"`
+	TotalRepos         int                       `json:"total_repos"`
+	ScannedRepos       int                       `json:"scanned_repos"`
+	SkippedRepos       int                       `json:"skipped_repos"`
+	TotalVulns         int                       `json:"total_vulnerabilities"`
+	RepositorySummary  map[string]RepoScanResult `json:"repository_summary"`
+	TopVulnerabilities []VulnSummary             `json:"top_vulnerabilities"`
+	ScanTimestamp      time.Time                 `json:"scan_timestamp"`
 }
 
 type RepoScanResult struct {
-	Language        string   `json:"language,omitempty"`
-	Stars           int      `json:"stars"`
-	Size            int      `json:"size_kb"`
-	VulnCount       int      `json:"vulnerability_count"`
-	VulnPackages    []string `json:"vulnerable_packages"`
-	ScanStatus      string   `json:"scan_status"`
-	Error           string   `json:"error,omitempty"`
+	Language     string   `json:"language,omitempty"`
+	Stars        int      `json:"stars"`
+	Size         int      `json:"size_kb"`
+	VulnCount    int      `json:"vulnerability_count"`
+	VulnPackages []string `json:"vulnerable_packages"`
+	ScanStatus   string   `json:"scan_status"`
+	Error        string   `json:"error,omitempty"`
 }
 
 type VulnSummary struct {
-	PackageName     string   `json:"package_name"`
-	Ecosystem       string   `json:"ecosystem"`
-	FoundInRepos    []string `json:"found_in_repos"`
-	Frequency       int      `json:"frequency"`
+	PackageName  string   `json:"package_name"`
+	Ecosystem    string   `json:"ecosystem"`
+	FoundInRepos []string `json:"found_in_repos"`
+	Frequency    int      `json:"frequency"`
 }
 
 func runOrgScan(scanType, orgName string) {
 	fmt.Printf("🔍 Organization Scan: %s [%s]\n", orgName, scanType)
-	
+
 	// Get repositories from GitHub API
 	repos, err := getOrgRepositories(orgName)
 	if err != nil {
@@ -300,10 +305,10 @@ func runOrgScan(scanType, orgName string) {
 
 	report := OrgReportData{
 		Organization:      orgName,
-		ScanType:         scanType,
-		TotalRepos:       len(repos),
+		ScanType:          scanType,
+		TotalRepos:        len(repos),
 		RepositorySummary: make(map[string]RepoScanResult),
-		ScanTimestamp:    time.Now(),
+		ScanTimestamp:     time.Now(),
 	}
 
 	vulnMap := make(map[string]*VulnSummary)
@@ -502,7 +507,7 @@ func printOrgSummary(report OrgReportData) {
 	fmt.Println(strings.Repeat("═", 60))
 
 	fmt.Printf("📊 Scan Type: %s\n", report.ScanType)
-	fmt.Printf("📁 Repositories: %d total, %d scanned, %d skipped\n", 
+	fmt.Printf("📁 Repositories: %d total, %d scanned, %d skipped\n",
 		report.TotalRepos, report.ScannedRepos, report.SkippedRepos)
 	fmt.Printf("🚨 Total Vulnerabilities: %d\n", report.TotalVulns)
 
@@ -513,7 +518,7 @@ func printOrgSummary(report OrgReportData) {
 			if count >= 10 { // Show top 10
 				break
 			}
-			fmt.Printf("  %d. %s [%s] - found in %d repos\n", 
+			fmt.Printf("  %d. %s [%s] - found in %d repos\n",
 				count+1, vuln.PackageName, vuln.Ecosystem, vuln.Frequency)
 			count++
 		}

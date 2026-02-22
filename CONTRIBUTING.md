@@ -130,7 +130,7 @@ go test ./...
 go build -o deptakeover ./cmd/deptakeover
 
 # Cross-compile for all platforms
-make build-all  # or use build.bat / build.sh
+make build-all  # or use scripts/build.bat / scripts/build.sh
 ```
 
 ### Project Structure
@@ -141,9 +141,9 @@ deptakeover/
 │   ├── scanner/         # Dependency file parsers
 │   ├── registry/        # Registry API clients
 │   └── github/          # GitHub integration
-├── docs/                # Documentation
-├── build/               # Build scripts and outputs
-└── tests/               # Test data and integration tests
+├── scripts/              # Build and release scripts
+├── .github/              # GitHub workflows
+└── build/               # Build outputs (generated)
 ```
 
 ### Adding New Registry Support
