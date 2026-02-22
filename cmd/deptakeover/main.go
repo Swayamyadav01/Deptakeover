@@ -75,6 +75,7 @@ PERFECT FOR:
   to identify supply chain attack vectors in their dependencies.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Print(bannerText)
+		fmt.Println()
 
 		if len(args) != 2 {
 			fmt.Println("Usage: deptakeover <ecosystem> <target>")
@@ -148,7 +149,7 @@ PERFECT FOR:
 const bannerText = `
   ____           _____     _
 |  _ \  ___ _ _|_   _|_ _| | _____  _____   _____ _ __ 
-| | | |/ _ \ '_ \| |/ _` | |/ / _ \/ _ \ \ / / _ \ '__|
+| | | |/ _ \ '_ \| |/ _' | |/ / _ \/ _ \ \ / / _ \ '__|
 | |_| |  __/ |_) | | (_| |   <  __/ (_) \ V /  __/ |   
 |____/ \___| .__/|_|\__,_|_|\_\___|\___/ \_/ \___|_|   
            |_| 
