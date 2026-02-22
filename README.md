@@ -50,6 +50,22 @@ go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@main
 go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@latest
 ```
 
+If `deptakeover` is not found, add Go bin to your `PATH`:
+
+```bash
+# Linux/macOS
+echo 'export PATH="$HOME/go/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+```powershell
+# Windows PowerShell (current session)
+$env:Path += ";$env:USERPROFILE\go\bin"
+
+# Verify command
+deptakeover --help
+```
+
 Or grab a binary from releases if you don't have Go installed.
 
 ```bash
