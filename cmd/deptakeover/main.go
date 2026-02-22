@@ -74,8 +74,9 @@ PERFECT FOR:
   Bug bounty hunters, security researchers, and DevOps teams looking
   to identify supply chain attack vectors in their dependencies.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Print(bannerText)
+
 		if len(args) != 2 {
-			fmt.Print(bannerText)
 			fmt.Println("Usage: deptakeover <ecosystem> <target>")
 			fmt.Println()
 			fmt.Println("SINGLE REPOSITORY:")

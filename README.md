@@ -8,6 +8,7 @@
 |____/ \___| .__/|_|\__,_|_|\_\___|\___/ \_/ \___|_|   
            |_|
 
+DepTakeover
 Supply Chain Takeover Scanner
 Find missing packages across npm, PyPI, and Composer
 Report unclaimed dependencies before attackers do
@@ -42,7 +43,10 @@ Simple - grabs dependencies from package files (package.json, requirements.txt, 
 ## Installation
 
 ```bash
-# Go install - simplest way
+# Go install - latest code from main branch
+go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@main
+
+# Or use latest tagged release
 go install github.com/Swayamyadav01/Deptakeover/cmd/deptakeover@latest
 ```
 
