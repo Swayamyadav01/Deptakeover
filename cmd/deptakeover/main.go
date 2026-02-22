@@ -146,18 +146,15 @@ PERFECT FOR:
 	},
 }
 
-const bannerText = `
- ____           _____     _
-|  _ \  ___ _ _|_   _|_ _| | _____  _____   _____ _ __ 
-| | | |/ _ \ '_ \| |/ _' | |/ / _ \/ _ \ \ / / _ \ '__|
-| |_| |  __/ |_) | | (_| |   <  __/ (_) \ V /  __/ |   
-|____/ \___| .__/|_|\__,_|_|\_\___|\___/ \_/ \___|_|   
-           |_|
-		   
-DepTakeover | Supply Chain Takeover Scanner
-Find missing packages across npm, PyPI, and Composer
-Report unclaimed dependencies before attackers do
-`
+const bannerText = " ____           _____     _\n" +
+	"|  _ \\  ___ _ _|_   _|_ _| | _____  _____   _____ _ __ \n" +
+	"| | | |/ _ \\ '_ \\| |/ _` | |/ / _ \\/ _ \\ \\ / / _ \\ '__|\n" +
+	"| |_| |  __/ |_) | | (_| |   <  __/ (_) \\ V /  __/ |   \n" +
+	"|____/ \\___| .__/|_|\\__,_|_|\\_\\___|\\___/ \\_/ \\___|_|   \n" +
+	"           |_|\n\n" +
+	"DepTakeover | Supply Chain Takeover Scanner\n" +
+	"Find missing packages across npm, PyPI, and Composer\n" +
+	"Report unclaimed dependencies before attackers do\n"
 
 func init() {
 	// Positional arguments only - no flags
